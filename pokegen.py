@@ -2,6 +2,7 @@
 
 import random, sys, sqlite3, getopt
 from collections import Counter
+from operator import itemgetter
 
 sys.path.insert(0, "modules/")
 
@@ -24,5 +25,5 @@ print pokemon
 print Counter(pokemon.Naturalize())
 
 
-print sorted(pokemon.LevelUp().values(), reverse=True)
+print sorted(pokemon.LevelUp().items(), key=itemgetter(1), reverse=True)
 
