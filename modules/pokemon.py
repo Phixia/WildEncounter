@@ -129,6 +129,13 @@ class Pokemon(object):
 		for key, value in NewStats_counter.items():
 			NewStats[key] = value
 		return NewStats	
+
+
+# This function is where the magic happens and getting the magic to happen happens to be a total bitch
+# Here we attempt to level a pokemon up and add a stat point for each level past level 1 it has gained.
+# In PTA we must retain BaseRelation which means the Highest stat at level 1 must always remain the highest stat
+# Andrew Howard provided much of the logic for this current itteration of LevelUp() we are collectively going to try to make the logic less hacky/lazy over the next few weeks.
+
 	
 	def LevelUp(self):
 		StatPoints = self.level - 1
