@@ -218,11 +218,11 @@ class Biome(object):
 biome = Biome(str(sys.argv[1]))
 
 pokemon = Pokemon(biome.encounter())
-#print pokemon
+print pokemon
 
-x = Pokemon("Geodude")
-y = x.Naturalize()
+#x = Pokemon("Geodude")
+#y = x.Naturalize()
 
-print y
+#print y
 
 

@@ -15,8 +15,46 @@ def RareRoll():
 
 # function to get a nature from DB
 def GetNature():
-	conn = sqlite3.connect('PTA')
-	data = conn.execute('SELECT Name FROM Natures ORDER BY RANDOM() LIMIT 1')
+	conn = sqlite3.connect('PTA_ORAS.db')
+#	data = conn.execute('SELECT Name FROM Natures ORDER BY RANDOM() LIMIT 1')
+#	DbConnect()
+	data = conn.execute('SELECT name FROM ORAS_nature ORDER BY RANDOM() LIMIT 1')
+#	DbQuery('SELECT name FROM ORAS_nature ORDER BY RANDOM() LIMIT 1')
 	for row in data:
 		nature = row[0]
 	return nature
+
+
+
+#def OldDbConnect():
+#	conn = sqlite3.connect('PTA')
+#	return conn
+
+#def DbConnect():
+#	conn = sqlite3.connect('PTA_ORAS.db')
+#	return conn
+
+#def DbClose():
+#	conn.close()
+#	return
+
+#def DbQuery(x):
+#	DbConnect()
+#	data = conn.execute(x)
+#	DbClose()
+#	return data
+
+#def Imports():
+#	import random, sys, sqlite3
+#	from collections import Counter
+#	from monmods import Shiny
+#	from monmods import GetNature
+#	from monmods import RareRoll
+#	from monmods import DbConnect
+#	from monmods import OldDbConnect
+	#from monmods import DbClose
+#	from monmods import DbQuery
+#	from nature import Nature
+#	from pokemon import Pokemon
+#	from move import Move
+		

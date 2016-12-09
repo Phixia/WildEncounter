@@ -13,22 +13,18 @@ from nature import Nature
 from pokemon import Pokemon
 from move import Move
 
-# To call this program do the following from CLI python pokemon.py PokemonName(Currently Cap sensitive) Level
+move = sys.argv[1]
 
-mon = sys.argv[1]
-level = sys.argv[2]
+xmove = (move ,)
 
-pokemon = Pokemon(mon, level)
+# In order to use our move function to print out info about a move first we need to know the ID of the move.
 
+conn = sqlite3.connect('PTA_ORAS.db')
 
-print pokemon
+data = conn.execute('SELECT id FROM ORAS_move WHERE name=?' , xmove)
+for x in data:
+	move_id = x
 
-print Counter(pokemon.Naturalize())
+print Move(move_id)
 
-#pokemon.LevelUp()
-
-print sorted(pokemon.LevelUp().items(), key=itemgetter(1), reverse=True)
-
-for x in pokemon.Moves():
-	print Move(x)
 

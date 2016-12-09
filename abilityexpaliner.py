@@ -12,23 +12,20 @@ from monmods import RareRoll
 from nature import Nature
 from pokemon import Pokemon
 from move import Move
+from ability import Ability
 
-# To call this program do the following from CLI python pokemon.py PokemonName(Currently Cap sensitive) Level
+ability = sys.argv[1]
 
-mon = sys.argv[1]
-level = sys.argv[2]
+xability = (ability ,)
 
-pokemon = Pokemon(mon, level)
+# In order to use our move function to print out info about a move first we need to know the ID of the move.
 
+conn = sqlite3.connect('PTA_ORAS.db')
 
-print pokemon
+data = conn.execute('SELECT id FROM ORAS_ability WHERE name=?' , xability)
+for x in data:
+	ability_id = x
 
-print Counter(pokemon.Naturalize())
+print Ability(ability_id)
 
-#pokemon.LevelUp()
-
-print sorted(pokemon.LevelUp().items(), key=itemgetter(1), reverse=True)
-
-for x in pokemon.Moves():
-	print Move(x)
 
