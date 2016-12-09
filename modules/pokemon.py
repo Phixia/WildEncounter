@@ -19,9 +19,6 @@ from operator import itemgetter
 #from monmods import DbClose
 
 
-
-
-
 class Pokemon(object):
 # All Pokemon have the following:
 # A name (the kind of pokemon)
@@ -39,17 +36,11 @@ class Pokemon(object):
 		self.mon = (mon,)
 		self.level = int(level)
 		self.nature = GetNature()
-
-
-#		conn = sqlite3.connect('PTA')
-#		data = conn.execute('SELECT WeightClass, Size, BaseHP, BaseAtk, BaseDef, BaseSpAtk, BaseSpDef, BaseSpeed,Capabilities, Type1, Type2, Number, Male, Female FROM Pokemon where Name=?' , mon)
-# I tried to make some cool class functions and call them in init, but I think I have created a chicken and egg senario here...
-#		self.BaseStats()
 		conn = sqlite3.connect('PTA_ORAS.db')
-		data = conn.execute('SELECT number, type1, type2, hp, atk, def, satk, sdef, spd, height, weight, capture_rate, exp_drop FROM ORAS_pokemon WHERE name=?' , self.mon)
+		data = conn.execute('SELECT number, type1, type2, hp, atk, def, satk, sdef, spd, height, weight, `capture_rate`, exp_drop FROM ORAS_pokemon WHERE name=?' , self.mon)
 		for row in data:
-			self.WeightClass = row[9]
-			self.Size = row[8]
+			self.WeightClass = row[10]
+			self.Size = row[9]
 			self.HP = row[3]
 			self.Atk = row[4]
 			self.Def = row[5]
@@ -59,8 +50,8 @@ class Pokemon(object):
 			self.Type1 = row[1]
 			self.Type2 = row[2]
 			self.num = row[0]
-			self.caprate = row[10]
-			self.exp = row[11]
+			self.caprate = int(row[11])
+			self.exp = row[12]
 		conn.close()
 # I am going to use the old DB for this because currently it stores it in a more sane manner;
 # again I tried to use a cool function for this and it failed...
@@ -74,39 +65,7 @@ class Pokemon(object):
 			self.Fchanc = int(row[1])
 		conn.close()
 
-#			self.Capabilities = row[8]
-#			self.Mchance = int(row[12])
-#			self.Fchance = int(row[13])
-		
-
-# OLD TYPE STUFF MIGHT NEED STILL
-#		Typedata = conn.execute('SELECT Type from Types where TypeID =?', self.Type1)
-#		for i in Typedata:
-#			self.Type1 = i[0]
-#		Typedata = conn.execute('SELECT Type from Types where TypeID =?', self.Type2)
-#		for i in Typedata:
-#			self.Type2 = i[0]
-#		conn.close()
-
-### /end DB call for Basestats
-
 		self.BaseStats = {"hp": int(self.HP), "atk": int(self.Atk), "def": int(self.Def), "satk": int(self.SpAtk), "sdef": int(self.SpDef), "spd": int(self.Speed)}
-
-
-
-############ Broken currently
-### This could also be its own method that gets ability information
-# I will likely leave this for now as the abilities in the DB are currently for PTU and thus moot for me.
-#		conn = sqlite3.connect('PTA')
-
-#		abilitydata = conn.execute('SELECT AbilityID From PokemonAbilities WHERE PokemonNum=? and AbilityLevel=1 ORDER BY RANDOM() LIMIT 1' , self.num)
-#		for i in abilitydata.fetchall():
-#			ability = i
-#		abilitydata2 = conn.execute('SELECT Name from Abilities WHERE AbilityID=?' , ability)	
-#		for i in abilitydata2:
-#			self.Ability = i[0]
-
-
 
 # This is the function to print out our Pokemon Object so whatever we define here we will see when we run stuff.
 

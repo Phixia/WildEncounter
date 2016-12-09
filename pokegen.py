@@ -1,15 +1,7 @@
-# This is just to gen a single mon For right now I am gonna quick and dirty copy and paste so I can use this tonight. Later I plan to put all the modules and classes in their own directory and import them from that location.
-
-import random, sys, sqlite3, getopt
-from collections import Counter
+# This script is to gen a single mon when you know what mon you want to gen(not random)
+import sys
 from operator import itemgetter
-
 sys.path.insert(0, "modules/")
-
-from monmods import GetNature
-from monmods import Shiny
-from monmods import RareRoll
-from nature import Nature
 from pokemon import Pokemon
 from move import Move
 
@@ -20,15 +12,12 @@ level = sys.argv[2]
 
 pokemon = Pokemon(mon, level)
 
-
 print pokemon
-
-print Counter(pokemon.Naturalize())
-
-#pokemon.LevelUp()
 
 print sorted(pokemon.LevelUp().items(), key=itemgetter(1), reverse=True)
 
-for x in pokemon.Moves():
-	print Move(x)
+
+# For now I am disabling moves, the db seems to only list TMs/HMs/eggmoves/move_tutor moves for a mon... not naturally learned moves...
+#for x in pokemon.Moves():
+#	print Move(x)
 
