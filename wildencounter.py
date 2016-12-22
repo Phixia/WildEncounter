@@ -456,6 +456,3 @@ for opt, arg in opts:
 	else:
 		usage()
 		sys.exit(2)
-
-
-

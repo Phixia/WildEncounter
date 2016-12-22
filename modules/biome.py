@@ -42,7 +42,6 @@ class Biome(object):
 
 # This actually builds the encounter and returns the mons name
 	def encounter(self):
-		Shiny()
 		rareness = RareRoll()
 		if rareness < 6:
 			self.rare()

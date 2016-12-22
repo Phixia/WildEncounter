@@ -16,7 +16,7 @@ class Ability(object):
 			self.activate = str(row[1])
 			self.limit = str(row[2])
 			self.keyword = str(row[3])
-			self.effect = str(row[4])
+			self.effect = row[4].encode('utf-8')
 		return
 	def __str__(self):
 		output = ( "{}\n"

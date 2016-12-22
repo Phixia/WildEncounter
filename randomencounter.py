@@ -1,13 +1,21 @@
-# This script is to gen a single mon when you know what mon you want to gen(not random)
-import sys
+# This script is to gen a single mon when you don't know what mon you want to gen(random)
+import sys, sqlite3
 from operator import itemgetter
 sys.path.insert(0, "modules/")
 from pokemon import Pokemon
 from move import Move
+# To call this program do the following from CLI python randomencounter.py Level
+level = sys.argv[1]
 
-# To call this program do the following from CLI python pokemon.py PokemonName(Currently Cap sensitive) Level
-mon = sys.argv[1]
-level = sys.argv[2]
+def GetMon():
+	conn = sqlite3.connect('PTA_ORAS.db')
+	data = conn.execute('SELECT name from ORAS_pokemon ORDER BY RANDOM() LIMIT 1')
+	for i in data:
+		mon = i[0]
+	return mon
+
+mon = GetMon()
+
 pokemon = Pokemon(mon, level)
 
 print pokemon

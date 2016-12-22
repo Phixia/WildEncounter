@@ -2,9 +2,11 @@ import random, sys, sqlite3
 
 def Shiny():
 	# Note: Shiny chance for my game is 1:100 if you want to be true to the video game it is either 1:4000 or 1:8000 (older generations)
-	shiny = random.randint(1,100)
-	if shiny == 1:
-		print "SHINY!"
+	shinychance = random.randint(1,100)
+	if shinychance == 1:
+		shiny = "SHINY!"
+	else:
+		shiny = " "
 	return shiny
 # /end shiny
 
@@ -24,6 +26,19 @@ def GetNature():
 		nature = row[0]
 	return nature
 
+def Fossil():
+	print(random.choice(list(open('biomes/fossil.txt'))))
+	return
+
+def Evostone():
+	print(random.choice(list(open('biomes/evostone.txt'))))
+	return
+
+def Legendary():
+	shiny = Shiny()
+	print shiny
+	print(random.choice(list(open('biomes/legendary.txt'))))
+	return
 
 
 #def OldDbConnect():

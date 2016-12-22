@@ -10,14 +10,11 @@ from monmods import RareRoll
 from collections import Counter
 from collections import OrderedDict
 from operator import itemgetter
-
-
 #I tried to make a DB function but was having issues returning the connection string...
 #from monmods import DbConnect
 #from monmods import OldDbConnect
 #from monmods import DbQuery
 #from monmods import DbClose
-
 
 class Pokemon(object):
 # All Pokemon have the following:
@@ -35,9 +32,10 @@ class Pokemon(object):
 		self.name = mon
 		self.mon = (mon,)
 		self.level = int(level)
+		self.shiny = Shiny()
 		self.nature = GetNature()
 		conn = sqlite3.connect('PTA_ORAS.db')
-		data = conn.execute('SELECT number, type1, type2, hp, atk, def, satk, sdef, spd, height, weight, `capture_rate`, exp_drop FROM ORAS_pokemon WHERE name=?' , self.mon)
+		data = conn.execute('SELECT id, type1, type2, hp, atk, def, satk, sdef, spd, height, weight, `capture_rate`, exp_drop FROM ORAS_pokemon WHERE name=?' , self.mon)
 		for row in data:
 			self.WeightClass = row[10]
 			self.Size = row[9]
@@ -62,7 +60,7 @@ class Pokemon(object):
 		for row in olddata:
 			self.Capabilities = row[2]
 			self.Mchance = int(row[0])
-			self.Fchanc = int(row[1])
+			self.Fchance = int(row[1])
 		conn.close()
 
 		self.BaseStats = {"hp": int(self.HP), "atk": int(self.Atk), "def": int(self.Def), "satk": int(self.SpAtk), "sdef": int(self.SpDef), "spd": int(self.Speed)}
@@ -71,6 +69,7 @@ class Pokemon(object):
 
 	def __str__(self):
 		output = ( "{}\n"
+							"{}\n"
 							"{}\n"
 							"Ability: {}\n"
 							"HP: {}\n"
@@ -87,6 +86,7 @@ class Pokemon(object):
 							"Exp Drop: {}\n"
 							"Capabilities {}" )
 		return output.format(self.name,
+									self.shiny,
 									Nature(self.nature),
 									self.Ability(),
 									self.HP,
@@ -118,7 +118,7 @@ class Pokemon(object):
 		return olddata
 
 	def Sex(self):
-		if self.Mchance == 0 and self.Fchance == 0:
+		if self.Mchance == 0.0 and self.Fchance == 0.0:
 			sex = 'N/A' 
 		elif RareRoll() <= int(self.Mchance):
 			sex = 'M'
@@ -221,17 +221,3 @@ class Pokemon(object):
 		data = conn.execute('SELECT move_id from ORAS_pokemon_moves where pokemon_id=? AND level<=?' , self.num + level)
 		data = data.fetchall()
 		return data
-
-
-
-
-
-
-
-
-
-
-
-
-
-			
