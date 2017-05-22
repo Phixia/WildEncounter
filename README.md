@@ -22,28 +22,28 @@ To run the CLI tools go to a command prompt, cd into the WildEncounter directory
 # wildencounter.object.py: 
 	python wildencounter.object.py BiomeName Level
 	Example: To generate a level 14 wild pokemon that lives in a cave;
--		$ python wildencounter.object.py cave 14 
+		$ python wildencounter.object.py cave 14 
 
 
 # pokegen.py
 	For the times when you specifically know the mon you want but want to random gen the stats and pull the available moveset. Use the pokegen.py
 	python pokegen.py PokemonName Level (Case sensitive)
 	Example: To generate a level 15 Geodude
-- 		$ python pokegen.py "Geodude" 15
+ 		$ python pokegen.py "Geodude" 15
 
 # abilityexplainer.py: 
 	python abilityexplainer.py "Ability Name" (Case sensitive)
 	Example: To explain the ability "Pickup"
--		$ python abilityexplainer.py "Pickup"
+		$ python abilityexplainer.py "Pickup"
 
 pickup.py
 	To run the pickup.py script to determine what you pickup (or possibly for random loot):
--		$ python pickup.py
+		$ python pickup.py
 
 moveexplainer.py:
 	python moveexplainer.py "Move Name" (Case sensitive)
 	Example: To explain the move "Tackle"
--		$ python moveexplainer.py "Tackle"
+		$ python moveexplainer.py "Tackle"
 
 If you have any questions or suggestions please open an issue or pull request on github.
 
