@@ -15,44 +15,35 @@ Note: This is my first real attempt at working on a big/involved python project 
 
 To run the CLI tools go to a command prompt, cd into the WildEncounter directory, and execute the various python scripts as follows;
 
+
 WARNING: wildencounter.py is old and will likely be removed once I am confident in my new object oriented script instead run wildencounter.object.py or pokegen.py
 
-To run wildencounter.object.py: 
 
-# python wildencounter.object.py BiomeName Level
-Example: To generate a level 14 wild pokemon that lives in a cave;
-# python wildencounter.object.py cave 14 
+wildencounter.object.py: 
+	python wildencounter.object.py BiomeName Level
+	Example: To generate a level 14 wild pokemon that lives in a cave;
+		python wildencounter.object.py cave 14 
 
-For the times when you specifically know the mon you want but want to random gen the stats and pull
- the available moveset. Use the pokegen.py
 
-To run the pokegen.py
+pokegen.py
+	For the times when you specifically know the mon you want but want to random gen the stats and pull the available moveset. Use the pokegen.py
+	python pokegen.py PokemonName Level (Case sensitive)
+	Example: To generate a level 15 Geodude
+		python pokegen.py "Geodude" 15
 
-# python pokegen.py PokemonName Level (Case sensitive)
+abilityexplainer.py: 
+	python abilityexplainer.py "Ability Name" (Case sensitive)
+	Example: To explain the ability "Pickup"
+		python abilityexplainer.py "Pickup"
 
-Example: To generate a level 15 Geodude
+pickup.py
+	To run the pickup.py script to determine what you pickup (or possibly for random loot):
+	python pickup.py
 
-# python pokegen.py "Geodude" 15
-
-To run abilityexplainer.py: 
-
-# python abilityexplainer.py "Ability Name" (Case sensitive)
-
-Example: To explain the ability "Pickup"
-
-# python abilityexplainer.py "Pickup"
-
-To run the pickup.py script to determine what you pickup (or possibly for random loot):
-
-# python pickup.py
- 
-To run the moveexplainer.py:
-
-# python moveexplainer.py "Move Name" (Case sensitive)
-
-Example: To explain the move "Tackle"
-
-# python moveexplainer.py "Tackle"
+moveexplainer.py:
+	python moveexplainer.py "Move Name" (Case sensitive)
+	Example: To explain the move "Tackle"
+		python moveexplainer.py "Tackle"
 
 If you have any questions or suggestions please open an issue or pull request on github.
 
