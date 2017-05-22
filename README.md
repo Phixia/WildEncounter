@@ -36,11 +36,11 @@ To run the CLI tools go to a command prompt, cd into the WildEncounter directory
 	Example: To explain the ability "Pickup"
 		$ python abilityexplainer.py "Pickup"
 
-pickup.py
+# pickup.py
 	To run the pickup.py script to determine what you pickup (or possibly for random loot):
 		$ python pickup.py
 
-moveexplainer.py:
+# moveexplainer.py:
 	python moveexplainer.py "Move Name" (Case sensitive)
 	Example: To explain the move "Tackle"
 		$ python moveexplainer.py "Tackle"
