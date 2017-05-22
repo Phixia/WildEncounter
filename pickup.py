@@ -126,5 +126,4 @@ elif roll == 20:
 else:
 	print "ERROR"
 
-print roll
 
