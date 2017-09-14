@@ -1,4 +1,5 @@
 import sys, random, sqlite3
+from pprint import pprint
 sys.path.insert(0, "modules/")
 # I tried to make a function to import the other functions, but it did not seem to work...
 #from monmods import Imports
@@ -10,6 +11,7 @@ from monmods import RareRoll
 from collections import Counter
 from collections import OrderedDict
 from operator import itemgetter
+from ability import Ability
 #I tried to make a DB function but was having issues returning the connection string...
 #from monmods import DbConnect
 #from monmods import OldDbConnect
@@ -47,7 +49,7 @@ class Pokemon(object):
 			self.Speed = row[8]
 			self.Type1 = row[1]
 			self.Type2 = row[2]
-			self.num = row[0]
+			self.num = int(row[0])
 			self.caprate = int(row[11])
 			self.exp = row[12]
 		conn.close()
@@ -55,6 +57,8 @@ class Pokemon(object):
 # again I tried to use a cool function for this and it failed...
 #		self.OldData()
 
+
+# Gonna try to move Capabilities to using the PTA db not the PTU db. Still using Gender from the PTU db as the PTA one has % signs and I need to figure them out.
 		conn = sqlite3.connect('PTA')
 		olddata = conn.execute('SELECT Male, Female, Capabilities FROM Pokemon where Name=?' , self.mon)
 		for row in olddata:
@@ -63,46 +67,139 @@ class Pokemon(object):
 			self.Fchance = int(row[1])
 		conn.close()
 
+# This is the new capabilities section 
+		conn = sqlite3.connect('PTA_ORAS.db')
+		data = conn.execute('SELECT stage, overland, surface, underwater, sky, burrow, jump, power, intelligence FROM ORAS_pokemon WHERE name=?', self.mon)
+		for row in data:
+			self.Stage = row[0]
+			self.Overland = row[1]
+			self.Surface = row[2]
+			self.Underwater = row[3]
+			self.Sky = row[4]
+			self.Burrow = row[5]
+			self.Jump = row[6]
+			self.Power = row[7]
+			self.Int = row[8]	
+		data2 = conn.execute('SELECT capability_id FROM ORAS_pokemon_capabilities WHERE pokemon_id=?', (self.num,))
+		for row in data2:
+			self.capability_id = row[0]
+		data3 = conn.execute('SELECT name, description FROM ORAS_capability WHERE id=?', (self.capability_id,))
+		for row in data3:
+			self.capability_name = row[0]
+			self.capability_desc = str(row[1])
+		conn.close()
+
+
+
+
+
 		self.BaseStats = {"hp": int(self.HP), "atk": int(self.Atk), "def": int(self.Def), "satk": int(self.SpAtk), "sdef": int(self.SpDef), "spd": int(self.Speed)}
+
+		LeveledStats = self.LevelUp()
+		self.finalHPtotal = (LeveledStats.values()[0] * 3 + self.level)
+		self.finalHP = LeveledStats.values()[0]
+		self.finalAtk = LeveledStats.values()[1]
+		self.finalDef = LeveledStats.values()[5]
+		self.finalSpAtk = LeveledStats.values()[3]
+		self.finalSpDef = LeveledStats.values()[2]
+		self.finalSpeed = LeveledStats.values()[4]
+
+		self.ability = self.Ability()
+
+		
+		conn = sqlite3.connect('PTA_ORAS.db')
+		iddata = conn.execute('SELECT id from ORAS_ability WHERE name=?' , (self.ability,))
+		for row in iddata:
+			self.ability_id = row[0]
+		conn.close()
+
+
+
+
+
 
 # This is the function to print out our Pokemon Object so whatever we define here we will see when we run stuff.
 
 	def __str__(self):
 		output = ( "{}\n"
+							"HP Total: {}\n"
 							"{}\n"
 							"{}\n"
 							"Ability: {}\n"
-							"HP: {}\n"
-							"Atk: {}\n"
-							"Def: {}\n"
-							"SpAtk: {}\n"
-							"SpDef: {}\n"
-							"Speed: {}\n"
+							"	{}\n"
+							"Base Stats{}\n"
+							"	HP: {}\n"
+							"	Atk: {}\n"
+							"	Def: {}\n"
+							"	SpAtk: {}\n"
+							"	SpDef: {}\n"
+							"	Speed: {}\n"
+							"Current Stats {}\n"
+							"	HP: {}\n"
+							"	Atk: {}\n"
+							"	Def: {}\n"
+							"	SpAtk: {}\n"
+							"	SpDef: {}\n"
+							"	Speed: {}\n"
 							"Type: {}/{}\n"
 							"WeightClass: {}\n"
 							"Size: {}\n"
 							"Sex: {}\n"
 							"Capture Rate: {}\n"
 							"Exp Drop: {}\n"
-							"Capabilities {}" )
+							"Capabilities: {}\n"
+							"	Int: {}\n"
+							"	Power: {}\n"
+							"	Overland: {}\n"
+							"	Surface: {}\n"
+							"	Underwater: {}\n"
+							"	Sky: {}\n"
+							"	Burrow: {}\n"
+							"	Jump: {}\n"
+							"	Capability Name: {}\n"
+							"	{}\n" )
 		return output.format(self.name,
+									self.finalHPtotal,
 									self.shiny,
 									Nature(self.nature),
-									self.Ability(),
+									"",
+										Ability((self.ability_id,)),
+									"",
 									self.HP,
 									self.Atk,
 									self.Def,
 									self.SpAtk,
 									self.SpDef,
 									self.Speed,
+									"",
+									self.finalHP,
+									self.finalAtk,
+									self.finalDef,
+									self.finalSpAtk,
+									self.finalSpDef,
+									self.finalSpeed,
 									self.Type1,
 									self.Type2,
 									self.WeightClass,
 									self.Size,
 									self.Sex(),
 									self.caprate,
-									self.exp,
-									self.Capabilities )
+									self.exp * self.level,
+									"",
+									self.Int,
+									self.Power,
+									self.Overland,
+									self.Surface,
+									self.Underwater,
+									self.Sky,
+									self.Burrow,
+									self.Jump,
+									self.capability_name,
+									self.capability_desc )
+
+
+
+
 
 	def BaseStats(self):
 		conn = sqlite3.connect('PTA_ORAS.db')
@@ -211,7 +308,13 @@ class Pokemon(object):
 				Stats[x] = (x_name, z + 1)
 				StatPoints -= 1
 				continue
-		return NewStats
+#		return NewStats
+# Attempting to get a better printout of LevelUp() stats
+		CurrentStats = dict(sorted(NewStats.items(), key=lambda x: x[1]))
+		return CurrentStats
+
+
+
 # This is going to use a new DB for the time being until I switch the old calls to use the new DB too (The old DB is for PTU so while most of the mon data works, the movesets and abilities are different)
 
 	def Moves(self):

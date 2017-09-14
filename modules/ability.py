@@ -20,10 +20,10 @@ class Ability(object):
 		return
 	def __str__(self):
 		output = ( "{}\n"
-							"Activation: {}\n"
-							"Limit: {}\n"
-							"Keyword: {}\n"
-							"Effect: {}\n")
+							"	Activation: {}\n"
+							"	Limit: {}\n"
+							"	Keyword: {}\n"
+							"	Effect: {}\n")
 
 		return output.format(self.name,
 								self.activate,
