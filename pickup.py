@@ -1,127 +1,42 @@
 # This script is used to determine what a pokemon with the pickup ability picks up after a fight
 import sys,getopt,sqlite3,random
+sys.path.insert(0, "modules/")
+from items import *
 
 # First we need to roll 1d20 then look up the id of the item 1-20 that we rolled in our item database.
 def d20Roll():
 	roll = random.randint(1,20)
 	return roll
 
-
-# There is a table in the player handbook page 257 that shows what items you get from pickup rolls. Using that table we are going to make a function for each type of item to randomly pull an item of that type from our DB.
-
-def none():
-	print"No item is found."
-	return
-
-def Xdrug():
-	idroll = random.randint(1,11)
-	drugID = (idroll,)
-	conn = sqlite3.connect('PTA_ORAS.db')
-	data = conn.execute('SELECT drug_name FROM ORAS_drugs where drug_id =?', drugID)
-	for row in data:
-		drug = row[0]
-	print drug
-	conn.close()
-	return
-
-def Berries():
-	conn = sqlite3.connect('PTA_ORAS.db')
-	data = conn.execute('SELECT berry_name FROM ORAS_berries ORDER BY RANDOM() LIMIT 1')
-	for row in data:
-		berry = row[0]
-	print berry
-	conn.close()
-	return
-
-def PokeBall():
-	idroll_values = list(range(1,25))
-	idroll_values.remove(4)
-	ballID = random.choice(idroll_values)
-	ballID = (ballID,)
-	conn = sqlite3.connect('PTA_ORAS.db')
-	data = conn.execute('SELECT ball_name FROM ORAS_pokeballs where ball_id =?', ballID)
-	for row in data:
-		ball = row[0]
-	print ball
-	conn.close()
-	return
-
-def Curative():
-	conn = sqlite3.connect('PTA_ORAS.db')
-	data = conn.execute('SELECT item_name FROM ORAS_curatives ORDER BY RANDOM() LIMIT 1')
-	for row in data:
-		item = row[0]
-	print item
-	conn.close()
-	return
-
-def EvoStone():
-	idroll = random.randint(1,9)
-	itemID = (idroll,)
-	conn = sqlite3.connect('PTA_ORAS.db')
-	data = conn.execute('SELECT item_name FROM ORAS_evoitems where item_id =?', itemID)
-	for row in data:
-		evostone = row[0]
-	print evostone
-	conn.close()
-	return
-
-def Drug():
-	idroll = random.randint(12,19)
-	drugID = (idroll,)
-	conn = sqlite3.connect('PTA_ORAS.db')
-	data = conn.execute('SELECT drug_name FROM ORAS_drugs where drug_id =?', drugID)
-	for row in data:
-		drug = row[0]
-	print drug
-	conn.close()
-	return
-
-def Held():
-	conn = sqlite3.connect('PTA_ORAS.db')
-	data = conn.execute('SELECT item_name FROM ORAS_helditem ORDER BY RANDOM() LIMIT 1')
-	for row in data:
-		item = row[0]
-	print item
-	conn.close()
-	return
-
-def Tm():
-	conn = sqlite3.connect('PTA_ORAS.db')
-	data = conn.execute('SELECT name FROM ORAS_TMs_HMs ORDER BY RANDOM() LIMIT 1')
-	for row in data:
-		name = row[0]
-	print name
-	conn.close()
-	return
+# There is a table in the player handbook page 257 that shows what items you get from pickup rolls. Using that table I made a function for each item type located in modules/items.py
 
 roll = d20Roll()
 if roll >= 1 and roll <= 5:
 	none()
 
 elif roll >= 6 and roll <= 8:
-	Xdrug()
+	Xdrug(0)
 
 elif roll >=9 and roll <= 10:
-	Berries()
+	Berries(0)
 
 elif roll >=11 and roll <=12:
-	PokeBall()
+	PokeBall(0)
 
 elif roll >=13 and roll <=16:
-	Curative()
+	Curative(0)
 
 elif roll == 17:
-	EvoStone()
+	EvoStone(0)
 
 elif roll == 18:
-	Drug()
+	Drug(0)
 
 elif roll == 19:
-	Held()
+	Held(0)
 
 elif roll == 20:
-	Tm()
+	Tm(0)
 
 else:
 	print "ERROR"

@@ -12,6 +12,5 @@ pokemon = Pokemon(mon, level)
 
 print pokemon
 
-# For now I am disabling moves, the db seems to only list TMs/HMs/eggmoves/move_tutor moves for a mon... not naturally learned moves...
 for x in pokemon.Moves():
 	print "\n", Move(x)

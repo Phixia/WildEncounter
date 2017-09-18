@@ -79,14 +79,20 @@ class Pokemon(object):
 			self.Burrow = row[5]
 			self.Jump = row[6]
 			self.Power = row[7]
-			self.Int = row[8]	
+			self.Int = row[8]
+		self.capability_id = 0	
 		data2 = conn.execute('SELECT capability_id FROM ORAS_pokemon_capabilities WHERE pokemon_id=?', (self.num,))
 		for row in data2:
 			self.capability_id = row[0]
-		data3 = conn.execute('SELECT name, description FROM ORAS_capability WHERE id=?', (self.capability_id,))
-		for row in data3:
-			self.capability_name = row[0]
-			self.capability_desc = str(row[1])
+		if self.capability_id == 0:
+			self.capability_name = 'None'
+			self.capability_desc = ''
+
+		else:
+			data3 = conn.execute('SELECT name, description FROM ORAS_capability WHERE id=?', (self.capability_id,))
+			for row in data3:
+				self.capability_name = row[0]
+				self.capability_desc = str(row[1])
 		conn.close()
 
 
